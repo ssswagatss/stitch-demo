@@ -1,0 +1,72 @@
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="logo">
+                <img src="assets/images/logo.png"
+                     alt="App Logo">
+            </div>
+            <h1>Welcome Back</h1>
+        </div>
+
+        <form [formGroup]="loginForm"
+              (ngSubmit)="onSubmit()"
+              class="login-form">
+            @if (error) {
+            <div class="error-message">
+                {{ error }}
+            </div>
+            }
+
+            <div class="form-group">
+                <input type="email"
+                       formControlName="email"
+                       placeholder="Email"
+                       [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                <div class="error-hint">
+                    @if (loginForm.get('email')?.errors?.['required']) {
+                    Email is required
+                    } @else if (loginForm.get('email')?.errors?.['email']) {
+                    Please enter a valid email address
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <input type="password"
+                       formControlName="password"
+                       placeholder="Password"
+                       [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                <div class="error-hint">
+                    @if (loginForm.get('password')?.errors?.['required']) {
+                    Password is required
+                    } @else if (loginForm.get('password')?.errors?.['minlength']) {
+                    Password must be at least 6 characters
+                    }
+                </div>
+                }
+            </div>
+
+            <button type="submit"
+                    class="login-button"
+                    [disabled]="loginForm.invalid || loading">
+                @if (loading) {
+                Signing in...
+                } @else {
+                Log In
+                }
+            </button>
+
+            <div class="login-footer">
+                <a href="#"
+                   class="forgot-password">Forgot Password?</a>
+                <p class="signup-prompt">
+                    Don't have an account? <a href="#"
+                       class="signup-link">Sign Up</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="expenses-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Expenses</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="expenses-list">
+                <div class="day-group"
+                     *ngFor="let group of expenseGroups$ | async">
+                    <div class="day-header">
+                        <span class="date">{{ group.date | date:'mediumDate' }}</span>
+                        <span class="total">Total: ${{ group.total.toFixed(2) }}</span>
+                    </div>
+
+                    <mat-list>
+                        <mat-list-item *ngFor="let expense of group.expenses">
+                            <div class="expense-item">
+                                <div class="expense-icon">
+                                    <mat-icon>{{ getIconForCategory(expense.category) }}</mat-icon>
+                                </div>
+                                <div class="expense-details">
+                                    <span class="merchant">{{ expense.merchant }}</span>
+                                    <span class="category">{{ expense.category }}</span>
+                                </div>
+                                <div class="expense-amount">
+                                    -${{ expense.amount.toFixed(2) }}
+                                </div>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <button mat-fab
+            color="primary"
+            class="add-button"
+            routerLink="/add-expense">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

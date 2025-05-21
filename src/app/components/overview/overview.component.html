@@ -1,0 +1,90 @@
+<div class="overview-container">
+    @if (loading) {
+    <div class="loading-state">
+        Loading...
+    </div>
+    } @else if (error) {
+    <div class="error-state">
+        {{ error }}
+    </div>
+    } @else if (user) {
+    <div class="user-card">
+        <div class="user-info">
+            <div class="avatar">
+                <img [src]="user.avatarUrl || 'assets/images/avatar.png'"
+                     [alt]="user.fullName">
+            </div>
+            <div class="user-details">
+                <div class="user-header">
+                    <h2>{{ user.fullName }}</h2>
+                    <button class="sign-out-button"
+                            (click)="onSignOut()">Sign Out</button>
+                </div>
+                <div class="balance">
+                    <span class="label">Total Balance</span>
+                    <span class="amount">{{ formatCurrency(user.totalBalance) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-section">
+        <h3>Income vs. Expenses</h3>
+        <div class="chart-container">
+            <!-- Chart will be implemented later -->
+            <div class="chart-placeholder"></div>
+        </div>
+        <div class="chart-legend">
+            <div class="legend-item">
+                <span class="dot income"></span>
+                <span>Income</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot expenses"></span>
+                <span>Expenses</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="action-button add-expense"
+                routerLink="/add-expense">
+            <span class="icon">+</span>
+            Add Expense
+        </button>
+        <button class="action-button view-reports"
+                routerLink="/reports">
+            <span class="icon">📊</span>
+            View Reports
+        </button>
+    </div>
+
+    <div class="transactions-section">
+        <h3>Recent Transactions</h3>
+        @if (recentTransactions.length === 0) {
+        <div class="empty-state">
+            No transactions yet. Add your first expense!
+        </div>
+        } @else {
+        <div class="transaction-list">
+            @for (transaction of recentTransactions; track transaction.id) {
+            <div class="transaction-item">
+                <div class="transaction-icon"
+                     [ngClass]="transaction.category.toLowerCase()">
+                    <span class="icon">🛒</span>
+                </div>
+                <div class="transaction-details">
+                    <span class="merchant">{{ transaction.merchant }}</span>
+                    <span class="category">{{ transaction.category }}</span>
+                </div>
+                <div class="transaction-amount"
+                     [ngClass]="{'income': transaction.amount > 0}">
+                    {{ formatCurrency(transaction.amount) }}
+                </div>
+            </div>
+            }
+        </div>
+        }
+    </div>
+    }
+</div>
